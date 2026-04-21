@@ -31,13 +31,14 @@ Working now:
 - `x_post_quote`
 - `x_post_thread`
 - `x_post_approve`
-- `x_post_publish`
+- `x_post_publish` for approved single posts and approved thread drafts
+- `x_media_upload`
 - `x_util_resolve_url`
 
 Still partial:
-- media upload transport
 - engagement actions
 - deeper thread expansion beyond immediate referenced context
+- packaged-runtime validation should still be treated as an active release-quality concern when new plugin versions ship
 
 ## Use the plugin surface this way
 
@@ -58,10 +59,12 @@ Use:
 - `x_post_thread` for multi-post threads
 
 Treat returned `draftId` as the durable handle for follow-up approval/publish steps.
+For threads, keep each post concise and make sure the full sequence is approved before publishing.
 
 ### Approval and publish
 Use `x_post_approve` only after the user has explicitly approved the exact draft.
 Then use `x_post_publish` only for the approved draft id.
+`x_post_publish` can now publish approved single posts, replies, quotes, and thread drafts.
 Do not mutate draft text between approval and publish.
 
 ## Drafting heuristics
