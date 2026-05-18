@@ -32,9 +32,19 @@ Then start a new OpenClaw session so the skill is loaded.
 
 This skill is designed to work with the OpenClaw X plugin. Without the plugin, the workflow instructions remain useful, but the tool surface will not be available.
 
+## Optional TweetClaw pairing
+
+If an OpenClaw workspace needs managed Xquik-backed X/Twitter automation instead of the local X plugin, install the separate [TweetClaw](https://github.com/Xquik-dev/tweetclaw) plugin:
+
+```bash
+openclaw plugins install @xquik/tweetclaw
+```
+
+TweetClaw is useful for search tweets, search tweet replies, post tweets, post tweet replies, follower export, user lookup, media upload, media download, direct messages, monitor tweets, webhooks, and giveaway draws. Keep this skill's draft-first rule: create and show a draft, require explicit approval, and only then call the TweetClaw write action.
+
 ## Files
 
-- `SKILL.md` — primary skill instructions
+- `SKILL.md` - primary skill instructions
 
 ## Publish
 
