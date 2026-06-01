@@ -10,6 +10,8 @@ It teaches the agent to use the X plugin safely:
 - gather context before drafting when needed
 - fetch follower/account graph context when monitoring or tracking account changes
 - use exact `accountId` values for multi-account sessions and drafts
+- verify non-default accounts with `x_account_me` before publish
+- prefer timeline search tools for older own-post lookup
 - create drafts instead of publishing directly
 - require explicit user approval before publish
 - keep reads, drafting, and publish decisions clearly separated
@@ -46,13 +48,13 @@ Example ClawHub publish flow:
 clawhub skill publish ./openclaw-skill-x-management \
   --slug x-management \
   --name "X Management" \
-  --version 0.1.0 \
+  --version 0.1.3 \
   --tags latest
 ```
 
 ## Status
 
-Usable now for the draft-first workflow that matches the current plugin capabilities, including multi-account operation, follower-list reads, post search, media upload, and approval-gated publishing.
+Usable now for the draft-first workflow that matches the current plugin capabilities, including multi-account operation, follower-list reads, post search, media upload, thread publish, and approval-gated publishing.
 
 ## License
 
