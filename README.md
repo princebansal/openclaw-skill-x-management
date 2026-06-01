@@ -8,6 +8,8 @@ This skill is the agent-side workflow layer that pairs with the `openclaw-plugin
 
 It teaches the agent to use the X plugin safely:
 - gather context before drafting when needed
+- fetch follower/account graph context when monitoring or tracking account changes
+- use exact `accountId` values for multi-account sessions and drafts
 - create drafts instead of publishing directly
 - require explicit user approval before publish
 - keep reads, drafting, and publish decisions clearly separated
@@ -50,7 +52,7 @@ clawhub skill publish ./openclaw-skill-x-management \
 
 ## Status
 
-Usable now for the draft-first workflow that matches the current plugin capabilities.
+Usable now for the draft-first workflow that matches the current plugin capabilities, including multi-account operation, follower-list reads, post search, media upload, and approval-gated publishing.
 
 ## License
 

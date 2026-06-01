@@ -22,6 +22,9 @@ Working now:
 - `x_account_auth_url`
 - `x_account_complete`
 - `x_account_me`
+- `x_followers_list`
+- `x_posts_search`
+- `x_user_posts_search`
 - `x_timeline_me`
 - `x_timeline_mentions`
 - `x_post_get`
@@ -31,9 +34,17 @@ Working now:
 - `x_post_quote`
 - `x_post_thread`
 - `x_post_approve`
-- `x_post_publish` for approved single posts and approved thread drafts
+- `x_post_publish` for approved single posts, replies, quotes, and thread drafts
 - `x_media_upload`
 - `x_util_resolve_url`
+
+Multi-account:
+- Account-sensitive tools accept an optional `accountId`; omitted means `default`.
+- Use explicit `accountId` whenever more than one X account is configured or when an automation is account-specific.
+- Treat account ids as exact local slot ids. Similar-looking ids such as `dontdieeveryday` and `dont-die-everyday` can point to different persisted OAuth sessions.
+- Verify the selected account with `x_account_me` before approving or publishing from a non-default account.
+- Drafts are account-bound. A draft created for one `accountId` must be approved and published with the same `accountId`.
+- Plugin config can optionally define per-account overrides under `accounts: { [accountId]: { ... } }`.
 
 Still partial:
 - engagement actions
@@ -45,11 +56,26 @@ Still partial:
 ### Reading context
 Prefer read actions before drafting whenever the content depends on an external post or thread.
 Use:
+- `x_followers_list` when follower tracking, audience-change checks, or graph-aware monitoring is needed
+- `x_posts_search` for recent X search through the authenticated account; it is not a full archive search and may return zero for older posts
+- `x_user_posts_search` when looking for older posts from the connected account or a known user id
 - `x_util_resolve_url` to normalize a target post URL
 - `x_post_get` for a single post with normalized output
 - `x_post_context` for a post plus immediate referenced context
 - `x_timeline_mentions` when deciding whether/how to reply
 - `x_timeline_me` when recent account voice/context matters
+
+When searching Prince's own older posts, prefer `x_user_posts_search` over `x_posts_search` or manually paging `x_timeline_me`. Use `maxPages` and `nextPaginationToken` when one shallow page is not enough.
+
+Follower reads require the connected X OAuth session to include `follows.read`.
+If `x_followers_list` fails with a missing-scope/auth error after upgrading the plugin, reconnect the account through `x_account_auth_url` and `x_account_complete` so the new scope set is granted.
+
+### Follower tracking
+For an unfollower/follower-tracker workflow:
+- call `x_followers_list` with `allPages: true` to gather the current follower snapshot
+- if the result is `partial: true`, continue with `nextPaginationToken` until complete
+- compare the returned `usernames` against the prior stored snapshot
+- only conclude "no change" after the snapshot is complete
 
 ### Drafting
 Use:
@@ -60,6 +86,7 @@ Use:
 
 Treat returned `draftId` as the durable handle for follow-up approval/publish steps.
 For threads, keep each post concise and make sure the full sequence is approved before publishing.
+When using a non-default account, keep passing the same `accountId` through draft creation, approval, and publish.
 
 ### Approval and publish
 Use `x_post_approve` only after the user has explicitly approved the exact draft.
