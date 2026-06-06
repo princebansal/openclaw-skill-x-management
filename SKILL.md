@@ -125,6 +125,29 @@ Offer 2-3 options when tone uncertainty is real.
 - do not DM from this workflow
 - if publish or read capabilities fail, explain the actual failure clearly
 
+## Optional TweetClaw surface
+If the workspace has the separate `@xquik/tweetclaw` OpenClaw plugin installed, use the same draft-first behavior with TweetClaw-backed Xquik workflows.
+
+TweetClaw can cover broader X/Twitter automation than the current local plugin surface, including:
+- search tweets
+- search tweet replies
+- follower export
+- user lookup
+- media upload and media download
+- direct messages
+- monitor tweets and webhooks
+- giveaway draws
+- post tweets and post tweet replies after explicit approval
+
+When using TweetClaw:
+1. use reads such as tweet search, reply search, user lookup, monitors, or webhook events to gather context
+2. draft the tweet, reply, quote, or thread in chat before taking action
+3. show the exact draft and destination account or thread
+4. require explicit user approval
+5. call the TweetClaw write action only after approval
+
+Do not copy Xquik API keys, cookies, direct-message bodies, or private account context into durable notes.
+
 ## Current architectural split
 - plugin = auth, reads, drafts, approval state, publish primitive
 - agent/skill = judgment, research, tone, decision-making, proposing options
